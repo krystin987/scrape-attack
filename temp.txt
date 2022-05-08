@@ -1,0 +1,40 @@
+.headers on
+.mode csv
+.output data.csv
+SELECT * FROM rss;
+
+.headers on
+.mode column
+.output data.csv
+SELECT * FROM rss ORDER BY id;
+
+.headers on
+.mode column
+.output data.csv
+SELECT content FROM rss ORDER BY id;
+
+.headers on
+.mode column
+.output data.csv
+SELECT title FROM rss;
+
+class='article-body'
+article html tag
+class='article-body'
+
+.headers on
+.mode column
+.output data.csv
+SELECT * FROM station;
+
+.headers on
+.mode list
+.output data.csv
+SELECT * FROM station;
+
+
+./cdx-index-client.py -c CC-MAIN-2021-49 stationindex.com --show-num-pages
+
+./cdx-index-client.py -c CC-MAIN-2021-49 https://www.stationindex.com/tv
+
+domain = re.sub(r'https://',"",web_site)
