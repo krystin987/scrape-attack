@@ -1,0 +1,25 @@
+[project]
+name = "stationindex"
+authors = [{name = "Krystin Villeneuve"}]
+#license = {file = "LICENSE"}
+#classifiers = ["License :: OSI Approved :: MIT License"]
+dynamic = ["version", "description"]
+
+dependencies = [
+    "bs4",
+    "click",
+    "requests",
+]
+
+[project.urls]
+Home = "https://github.com/krystin987/scrape-attack"
+
+[project.scripts]
+frink = "stationindex.main:main"
+
+[build-system]
+requires = [
+    "flit_core >=3.2,<4",
+    "tox",
+]
+build-backend = "flit_core.buildapi"
