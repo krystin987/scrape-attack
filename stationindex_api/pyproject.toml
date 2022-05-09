@@ -9,6 +9,7 @@ dependencies = [
     "bs4",
     "click",
     "requests",
+    "rich",
 ]
 
 [project.urls]
