@@ -15,7 +15,7 @@ dependencies = [
 Home = "https://github.com/krystin987/scrape-attack"
 
 [project.scripts]
-frink = "stationindex.main:main"
+stationindex = "stationindex.main:main"
 
 [build-system]
 requires = [
