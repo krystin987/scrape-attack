@@ -19,11 +19,11 @@ def download(page_url, path, session=None):
     return path
 
 
-def get_station_owners(refresh=False):
+def get_station_owners(refresh=False, session=None):
     page_url = "tv/by-owner/"  # suffix on URL to fetch
     path = Path(f"{page_url}/index.html")  # Local path caching the page
     if not path.exists() or refresh:
-        download(page_url, path)
+        download(page_url, path, session=session)
     return parse_by_owner(path)
 
 
@@ -42,11 +42,11 @@ def parse_by_owner(path):
     return results
 
 
-def get_stations_by_owner(name, refresh=False):
+def get_stations_by_owner(name, refresh=False, session=None):
     page_url = f"tv/by-owner/{name}"  # suffix on URL to fetch
     path = Path("tv/by-owner") / name.replace("+", "_").replace(" ", "_")  # Local path caching the page
     if not path.exists() or refresh:
-        download(page_url, path)
+        download(page_url, path, session=session)
     return parse_stations_by_owner(path)
 
 
@@ -90,11 +90,11 @@ def parse_stations_by_owner(path):
     return results
 
 
-def get_station_info_by_callsign(callsign, refresh=False):
+def get_station_info_by_callsign(callsign, refresh=False, session=None):
     page_url = f"tv/callsign/{callsign}"  # suffix on URL to fetch
     path = Path("tv/callsign") / callsign.replace("+", "_").replace(" ", "_")  # Local path caching the page
     if not path.exists() or refresh:
-        download(page_url, path)
+        download(page_url, path, session=session)
     return parse_station_by_callsign(path)
 
 
