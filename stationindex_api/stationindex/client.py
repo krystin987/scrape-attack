@@ -11,6 +11,12 @@ CACHE_DIR = Path(os.getenv("XDG_CACHE_DIR") or os.path.expanduser("~/.cache")) /
 TREE_BUILDER = "lxml"
 URL_BASE = "https://www.stationindex.com"
 
+
+def _rectify_key(text):
+    text = text.lower()
+    return "_id" if text == "id" else text
+
+
 def download(
         page_url: str,
         path: os.PathLike,
@@ -88,7 +94,7 @@ def parse_stations_by_owner(content: bytes, owner: str):
             else:
                 continue
             if key and value:
-                station_dict[key] = value
+                station_dict[_rectify_key(key)] = value
                 key = None
                 value = None
         if station_dict:
@@ -122,7 +128,7 @@ def parse_station_by_callsign(content: bytes):
             else:
                 continue
             if key and value:
-                results[key] = value
+                results[_rectify_key(key)] = value
                 key = None
                 value = None
     return results
