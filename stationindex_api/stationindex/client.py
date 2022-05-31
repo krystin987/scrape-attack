@@ -1,14 +1,27 @@
+import os
 from pathlib import Path
+from typing import Optional
 from urllib.parse import urlsplit
 
 import bs4.element
 from bs4 import BeautifulSoup
 import requests
 
+CACHE_DIR = Path(os.getenv("XDG_CACHE_DIR") or os.path.expanduser("~/.cache")) / "StationIndex"
+TREE_BUILDER = "lxml"
 URL_BASE = "https://www.stationindex.com"
 
 
-def download(page_url, path, session=None):
+def _rectify_key(text):
+    text = text.lower()
+    return "_id" if text == "id" else text
+
+
+def download(
+        page_url: str,
+        path: os.PathLike,
+        session: Optional[requests.sessions.Session] = None,
+):
     path = Path(path)  # wrap a filename with the Python Path handler
     # The Session context manager can re-use a TCP connection for efficiency
     response = (session or requests).get(f"{URL_BASE}/{page_url}")
@@ -19,17 +32,17 @@ def download(page_url, path, session=None):
     return path
 
 
-def get_station_owners(refresh=False):
+def get_station_owners(refresh=False,
+                       session: Optional[requests.sessions.Session] = None):
     page_url = "tv/by-owner/"  # suffix on URL to fetch
-    path = Path(f"{page_url}/index.html")  # Local path caching the page
+    path = CACHE_DIR / "tv/by-owner/index.html"  # Local path caching the page
     if not path.exists() or refresh:
-        download(page_url, path)
-    return parse_by_owner(path)
+        download(page_url, path, session=session)
+    return parse_by_owner(path.read_bytes())
 
 
-def parse_by_owner(path):
-    path = Path(path)  # wrap a filename with the Python Path handler
-    soup = BeautifulSoup(path.read_bytes(), "lxml")
+def parse_by_owner(content: bytes):
+    soup = BeautifulSoup(content, TREE_BUILDER)
 
     results = {}
     for n, row in enumerate(soup.find_all(
@@ -42,18 +55,17 @@ def parse_by_owner(path):
     return results
 
 
-def get_stations_by_owner(name, refresh=False):
+def get_stations_by_owner(name, refresh=False,
+                          session: Optional[requests.sessions.Session] = None):
     page_url = f"tv/by-owner/{name}"  # suffix on URL to fetch
-    path = Path("tv/by-owner") / name.replace("+", "_").replace(" ", "_")  # Local path caching the page
+    path = CACHE_DIR / "tv/by-owner" / name.replace("+", "_").replace(" ", "_")  # Local path caching the page
     if not path.exists() or refresh:
-        download(page_url, path)
-    return parse_stations_by_owner(path)
+        download(page_url, path, session=session)
+    return parse_stations_by_owner(path.read_bytes(), owner=path.stem)
 
 
-def parse_stations_by_owner(path):
-    path = Path(path)  # wrap a filename with the Python Path handler
-    owner = path.stem
-    soup = BeautifulSoup(path.read_bytes(), "lxml")
+def parse_stations_by_owner(content: bytes, owner: str):
+    soup = BeautifulSoup(content, TREE_BUILDER)
 
     results = {}
     for n, parent in enumerate(soup.find_all("p"), start=1):
@@ -82,7 +94,7 @@ def parse_stations_by_owner(path):
             else:
                 continue
             if key and value:
-                station_dict[key] = value
+                station_dict[_rectify_key(key)] = value
                 key = None
                 value = None
         if station_dict:
@@ -90,17 +102,17 @@ def parse_stations_by_owner(path):
     return results
 
 
-def get_station_info_by_callsign(callsign, refresh=False):
+def get_station_info_by_callsign(callsign, refresh=False,
+                                 session: Optional[requests.sessions.Session] = None):
     page_url = f"tv/callsign/{callsign}"  # suffix on URL to fetch
-    path = Path("tv/callsign") / callsign.replace("+", "_").replace(" ", "_")  # Local path caching the page
+    path = CACHE_DIR / "tv/callsign" / callsign.replace("+", "_").replace(" ", "_")  # Local path caching the page
     if not path.exists() or refresh:
-        download(page_url, path)
-    return parse_station_by_callsign(path)
+        download(page_url, path, session=session)
+    return parse_station_by_callsign(path.read_bytes())
 
 
-def parse_station_by_callsign(path):
-    path = Path(path)  # wrap a filename with the Python Path handler
-    soup = BeautifulSoup(path.read_bytes(), "lxml")
+def parse_station_by_callsign(content: bytes):
+    soup = BeautifulSoup(content, TREE_BUILDER)
 
     results = {}
     for parent in soup.find_all("p"):
@@ -116,7 +128,7 @@ def parse_station_by_callsign(path):
             else:
                 continue
             if key and value:
-                results[key] = value
+                results[_rectify_key(key)] = value
                 key = None
                 value = None
     return results

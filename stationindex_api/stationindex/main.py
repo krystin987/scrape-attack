@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 
 import click
+import requests
 from rich import progress
 from rich.console import Console
 from rich.table import Table
@@ -27,8 +28,9 @@ def cli_dump(path, refresh):
     Produce a JSON of stations by owner
     """
     structured_stations_by_owner = {}
-    for name, link in progress.track(client.get_station_owners(refresh=refresh).items()):
-        structured_stations_by_owner[name] = client.get_stations_by_owner(name, refresh=refresh)
+    with requests.Session() as session:
+        for name, link in progress.track(client.get_station_owners(refresh=refresh).items()):
+            structured_stations_by_owner[name] = client.get_stations_by_owner(name, refresh=refresh, session=session)
     json.dump(structured_stations_by_owner, path.open("w"), indent=2, default=str)
 
 
