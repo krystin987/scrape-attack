@@ -1,105 +1,44 @@
 import requests
 import sqlite3
+import json
 from sqlite3 import Error
 from bs4 import BeautifulSoup
 from scrape import clean_url
-# import re
-HEADERS = {"User-Agent": "Summarizer v2.0"}
+import json
+import tldextract
 
-
-def create_connection(db_file):
-    """ create a database connection to the SQLite database
-        specified by db_file
-    :param db_file: database file
-    :return: Connection object or None
-    """
-    conn = None
-    try:
-        conn = sqlite3.connect(db_file)
-        conn.execute("CREATE TABLE IF NOT EXISTS station (callsign, id, city, state)") # , web_site, programming, station_info, channels, market
-    except Error as e:
-        print(e)
-
-    return conn
-
-def insert_station_data(conn, station_list):
-    sql = """ insert into station values (?, ?, ?, ?) """ #, ?, ?, ?, ?, ?, ?, ?
-    cur = conn.cursor()
-    cur.executemany(sql, station_list)
-    conn.commit()
-
-def receive_data(data):
-    database = r"station.db"
-    conn = create_connection(database)
-    insert_station_data(conn, data)
-
-def scrape_station_info(link):
-    try: 
-        with requests.get(link, headers=HEADERS, timeout=10) as response:
-            text = response.text.lower()
-            soup = BeautifulSoup(text, "html5lib")
-            # soup = soup.find(attrs={"class": "site-center"})
-            for tag in soup.find_all(["p", "a", "font"]):
-                try:
-                    callsign = link.replace("https://www.stationindex.com/tv/callsign/", "").lower()
-                    if tag.text.startswith("id"):
-                        id = tag.text.replace("id:", tag.next_element.next_element.strip())
-                    if tag.text.startswith("city"):
-                        city = tag.text.replace("city: ", "").split(",")[0]
-                        state = tag.text.replace("city: ", "").split(",")[1]
-                    # if tag.text.startswith("web site"):
-                    #     web_site = tag.text.replace("web site: ", "")
-                    # if tag.text.startswith("programming"):
-                    #     programming = tag.text.replace("programming :", "")
-                    # if tag.text.startswith("station info"):
-                    #     station_info = tag.text.replace("station info: ", "")
-                    # if tag.text.startswith("channels"):
-                    #     channels = tag.text.replace("channels:", "")
-                    # if tag.text.startswith("market"):
-                    #     market = tag.text.replace("market: ", "")
-                    return(callsign, id, city, state) #, web_site, programming, station_info, channels, market
-                    
-                except:
-                    pass                  
-    except:
-        return("error") 
-
-def get_station_info(links):
-    link_data = []
-    for link in links:
-        try: 
-            with requests.get(link, headers=HEADERS, timeout=10) as response:
-                content = response.content
-                soup = BeautifulSoup(content, "html5lib")
-                for callsign_link in soup.find_all(href=True):
-                    link = callsign_link.get("href")
-                    if link.startswith(("https://www.stationindex.com/tv/callsign/")):
-                        data = scrape_station_info(link)
-                        print(data)
-                        link_data.append(data)
-
-        except:
-            return("error")
-    print(len(link_data))
-    receive_data(link_data)
-        
-
-
+    
 def main():
-    response = requests.get("https://www.stationindex.com/tv/by-owner")
-    if response.status_code != 200:
-        print("Error fetching page")
-        exit()
-    else:
-        content = response.content
+    db_list = []
+    with open('./stationindex_api/all-stations.json') as f: 
+        station_data = json.load(f)
+    for owner, stations_by_id in station_data.items():
+        for station_id, info in stations_by_id.items():
+            callsign, _, callsign_info = info["callsign"]
+            # Mebbe the API could do this change
+            lowercase_callsign_info = {
+                k.lower().replace(" ", "_"): v for k, v in callsign_info.items()
+            }
+            
+            city = lowercase_callsign_info['city']
+            # state = lowercase_callsign_info['city'].split(",")[1]
+            web_site = lowercase_callsign_info.get('web_site')
+            if web_site:
+                ext = tldextract.extract(web_site)
+                domain = "{}.{}".format(ext.domain, ext.suffix)
+            programming = lowercase_callsign_info['programming']
+            station_info = lowercase_callsign_info['station_info']
+            channels = lowercase_callsign_info.get('channels')
+            market = lowercase_callsign_info.get('market')
+            db_list.append([callsign, station_id, city, web_site, domain, programming, station_info, channels, market])
 
-    soup = BeautifulSoup(content, "html5lib")
-    station_links = []
-    for link_tag in soup.find_all(href=True):
-        link = link_tag.get("href")
-        if link.startswith(("/tv/by-owner/")):
-            station_links.append("https://www.stationindex.com" + link)
-    get_station_info(station_links)
+    database = r"station.db"
+    conn = sqlite3.connect(database)
+    conn.execute("CREATE TABLE IF NOT EXISTS station (callsign, station_id, city, web_site, domain, programming, station_info, channels, market)")
+    sql = """ insert into station values (?, ?, ?, ?, ?, ?, ?, ?, ?) """    
+    cur = conn.cursor()
+    cur.executemany(sql, db_list)
+    conn.commit()
 
 
 main()

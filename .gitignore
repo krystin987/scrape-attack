@@ -1,3 +1,6 @@
 __pycache__/
 dogbite/
 rss.db
+trash/
+*.db
+*.csv

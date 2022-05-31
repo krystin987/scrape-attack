@@ -32,6 +32,13 @@ SELECT * FROM station;
 .output data.csv
 SELECT * FROM station;
 
+.headers on
+.mode list
+.output domains.csv
+SELECT domain FROM station;
+
+
+
 
 ./cdx-index-client.py -c CC-MAIN-2021-49 stationindex.com --show-num-pages
 
