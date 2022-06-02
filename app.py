@@ -4,9 +4,7 @@ import sqlfile
 import feedparser
 import scrape 
 import feeds
-import json
 import tldextract
-import FeatureExtractor
 from FeatureExtractor import SimpleExtractor
 from FeatureExtractor import HandTunedExtractor
 
@@ -14,7 +12,7 @@ from FeatureExtractor import HandTunedExtractor
 
 # File locations
 HEADERS = {"User-Agent": "Summarizer v2.0"}
-HEADLINES_LOG = "./processed_headlines.txt" #headline w/ id
+HEADLINES_LOG = "./assets/processed_headlines.txt" #headline w/ id
 WHITELIST_FILE = "./assets/whitelist.txt"
 ERROR_LOG = "./error.log"
 
@@ -85,6 +83,8 @@ def get_posts_details(posts=None):
 	"""
 	Take link of posts feed as argument
 	"""
+	simple_extractor = SimpleExtractor()
+	handtuned_extractor = HandTunedExtractor()
 	# processed_posts = load_log() #todo, check for headline ver batim maybe as dupe protection
 	whitelist = load_whitelist()
 
@@ -102,15 +102,23 @@ def get_posts_details(posts=None):
 				article.download()
 				article.parse()
 				article.nlp()
-				print(article.summary)
-				simple_extractor = SimpleExtractor()
-				handtuned_extractor = HandTunedExtractor()
-				nlp_run_local = simple_extractor.analyze_body(article.summary)
-				nlp_third_party = handtuned_extractor.analyze_body(article.summary)
-				if nlp_run_local == True:
-						print("True1")
-				if nlp_third_party == True:
-					print("TRU!")
+				nlp_first_check = simple_extractor.analyze_body(article.summary)
+				# full_text = article.text + article.title + "".join(article.keywords)
+				if not nlp_first_check["features"]['dog']:
+					with open('./assets/url_unrelated_keywords.txt', 'a') as f:
+						f.write(clean_url_link)
+						f.write('\n')
+				# else:
+				# 	location = location_extractor.extract_location(full_text)
+				# 	if location is not None:
+				# 		with open('./assets/locations.txt', 'a') as f:
+				# 			f.write("countries: " + ",".join(location["features"]["countries"]))
+				# 			f.write('\n')
+				# 			f.write("states/regions:" + ",".join(location["features"]["regions"]))
+				# 			f.write('\n')
+				# 			f.write("cities:" + ",".join(location["features"]["cities"]))
+				# 			f.write('\n')
+				# 			f.write('\n')
 					# try: 				
 					# 	id = post.id.replace('tag:google.com,2013:googlealerts/feed:','')
 					# 	title = post.title
@@ -125,7 +133,7 @@ def get_posts_details(posts=None):
 					# except:
 					# 	pass #should this be something more robust? see above on line 108
 			else:
-				with open('newdomains.txt', 'a') as f:
+				with open('./assets/newdomains.txt', 'a') as f:
 					f.write(domain)
 					f.write('\n')
 
