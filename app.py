@@ -1,10 +1,14 @@
 from distutils.command.clean import clean
 from newspaper import Article
 import sqlfile
+
+from pathlib import Path
 import feedparser
 import scrape 
 import feeds
 import tldextract
+import os
+import json
 from FeatureExtractor import SimpleExtractor
 from FeatureExtractor import HandTunedExtractor
 
@@ -94,6 +98,11 @@ def get_posts_details(posts=None):
 
 		# iterating over individual posts
 		for post in posts:
+			article_id = post.id.replace("tag:google.com,2013:googlealerts/feed:","")
+			article_dir = Path(f"./incoming_web_data/{article_id}")
+			if article_dir.exists():
+				continue
+			article_dir.mkdir(parents=True)
 			clean_url_link = scrape.clean_url(post.link)
 			ext = tldextract.extract(clean_url_link)
 			domain = "{}.{}".format(ext.domain, ext.suffix) #example wmar2news.com
@@ -105,10 +114,28 @@ def get_posts_details(posts=None):
 				nlp_first_check = simple_extractor.analyze_body(article.summary)
 				# full_text = article.text + article.title + "".join(article.keywords)
 				if not nlp_first_check["features"]['dog']:
-					with open('./assets/url_unrelated_keywords.txt', 'a') as f:
+					with open("./assets/url_unrelated_keywords.txt", "a") as f:
 						f.write(clean_url_link)
-						f.write('\n')
-				# else:
+						f.write("\n")
+
+				else:
+					(article_dir / "content.txt").write_text(
+						article.text
+					)
+					json.dump(
+						{
+							"article_id": article_id,
+							"keywords": article.keywords,
+							"title": article.title,
+							"url": clean_url_link,
+							"domain": domain,
+							"authors": article.authors,
+							"summary": article.summary
+
+						},
+					(article_dir / "metadata.json").open("w")
+					)
+					# id is (often) a reserved word
 				# 	location = location_extractor.extract_location(full_text)
 				# 	if location is not None:
 				# 		with open('./assets/locations.txt', 'a') as f:
@@ -132,12 +159,12 @@ def get_posts_details(posts=None):
 					# 	post_list.append([id, title, link, domain, author, time_published, keywords, content, content_summary])
 					# except:
 					# 	pass #should this be something more robust? see above on line 108
-			else:
-				with open('./assets/newdomains.txt', 'a') as f:
-					f.write(domain)
-					f.write('\n')
+			# else:
+			# 	with open("./assets/newdomains.txt", "a") as f:
+			# 		f.write(domain)
+			# 		f.write('\n')
 
-		sqlfile.receive_data(post_list)			
+		# sqlfile.receive_data(post_list)			
 					
 			
 
