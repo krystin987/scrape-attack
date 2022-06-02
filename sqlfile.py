@@ -11,7 +11,7 @@ def create_connection(db_file):
     conn = None
     try:
         conn = sqlite3.connect(db_file)
-        conn.execute("CREATE TABLE IF NOT EXISTS rss (id, title, link, domain, author, time_published, content, content_summary)")
+        conn.execute("CREATE TABLE IF NOT EXISTS rss (id, title, link, domain, author, time_published, keywords, content, content_summary)")
     except Error as e:
         print(e)
 
@@ -19,7 +19,7 @@ def create_connection(db_file):
 
 def insert_rss_data(conn, rss_list):
 
-    sql = """ insert into rss values (?, ?, ?, ?, ?, ?, ?, ?) """    
+    sql = """ insert into rss values (?, ?, ?, ?, ?, ?, ?, ?, ?) """    
     cur = conn.cursor()
     cur.executemany(sql, rss_list)
     conn.commit()

@@ -4,4 +4,5 @@ rss.db
 trash/
 *.db
 *.csv
-
+temp.txt
+newdomains.txt
