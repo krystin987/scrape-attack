@@ -1,7 +1,9 @@
 from distutils.command.clean import clean
+import shutil
+import zipfile
 from newspaper import Article
 import sqlfile
-
+from datetime import datetime
 from pathlib import Path
 import feedparser
 import scrape 
@@ -9,6 +11,8 @@ import feeds
 import tldextract
 import os
 import json
+from zipfile import ZipFile
+
 from FeatureExtractor import SimpleExtractor
 from FeatureExtractor import HandTunedExtractor
 
@@ -82,6 +86,11 @@ def log_error(error_message):
     with open(ERROR_LOG, "a", encoding="utf-8") as log_file:
         log_file.write("{}\n".format(error_message))
 
+def zipdir(path, ziph):
+	for root, dirs, files in os.walk(path):
+		for file in files:
+			ziph.write(os.path.join(root, file))
+
 def get_posts_details(posts=None):
 	
 	"""
@@ -94,8 +103,6 @@ def get_posts_details(posts=None):
 
 	if posts is not None:
 		
-		post_list = []
-
 		# iterating over individual posts
 		for post in posts:
 			article_id = post.id.replace("tag:google.com,2013:googlealerts/feed:","")
@@ -112,7 +119,7 @@ def get_posts_details(posts=None):
 				article.parse()
 				article.nlp()
 				nlp_first_check = simple_extractor.analyze_body(article.summary)
-				# full_text = article.text + article.title + "".join(article.keywords)
+
 				if not nlp_first_check["features"]['dog']:
 					with open("./assets/url_unrelated_keywords.txt", "a") as f:
 						f.write(clean_url_link)
@@ -135,39 +142,15 @@ def get_posts_details(posts=None):
 						},
 					(article_dir / "metadata.json").open("w")
 					)
-					# id is (often) a reserved word
-				# 	location = location_extractor.extract_location(full_text)
-				# 	if location is not None:
-				# 		with open('./assets/locations.txt', 'a') as f:
-				# 			f.write("countries: " + ",".join(location["features"]["countries"]))
-				# 			f.write('\n')
-				# 			f.write("states/regions:" + ",".join(location["features"]["regions"]))
-				# 			f.write('\n')
-				# 			f.write("cities:" + ",".join(location["features"]["cities"]))
-				# 			f.write('\n')
-				# 			f.write('\n')
-					# try: 				
-					# 	id = post.id.replace('tag:google.com,2013:googlealerts/feed:','')
-					# 	title = post.title
-					# 	link = clean_url_link
-					# 	domain = domain
-					# 	author = ";".join(article.authors) # json.dumps(article.authors)
-					# 	time_published = post.published
-					# 	keywords =";".join(article.keywords) #json.dumps(article.keywords)
-					# 	content = article.text
-					# 	content_summary = article.summary
-					# 	post_list.append([id, title, link, domain, author, time_published, keywords, content, content_summary])
-					# except:
-					# 	pass #should this be something more robust? see above on line 108
-			# else:
-			# 	with open("./assets/newdomains.txt", "a") as f:
-			# 		f.write(domain)
-			# 		f.write('\n')
 
-		# sqlfile.receive_data(post_list)			
-					
-			
 
+		todays_date = datetime.now().strftime("%Y_%m_%d")
+		path = Path(f"./incoming_web_data_zips/")
+		path.mkdir(exist_ok=True)
+
+		zipf = ZipFile(f"./incoming_web_data_zips/rss_run_{todays_date}.zip", "w", zipfile.ZIP_DEFLATED)
+		zipdir("./incoming_web_data", zipf)
+		zipf.close()
 
 	else:
 		return None
