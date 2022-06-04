@@ -103,8 +103,6 @@ def get_posts_details(posts=None):
 
 	if posts is not None:
 		
-		post_list = []
-
 		# iterating over individual posts
 		for post in posts:
 			article_id = post.id.replace("tag:google.com,2013:googlealerts/feed:","")
@@ -121,7 +119,7 @@ def get_posts_details(posts=None):
 				article.parse()
 				article.nlp()
 				nlp_first_check = simple_extractor.analyze_body(article.summary)
-				# full_text = article.text + article.title + "".join(article.keywords)
+
 				if not nlp_first_check["features"]['dog']:
 					with open("./assets/url_unrelated_keywords.txt", "a") as f:
 						f.write(clean_url_link)
@@ -146,15 +144,13 @@ def get_posts_details(posts=None):
 					)
 
 
-		todays_date = datetime.now().strftime("%Y_%m_%d-%I:%M:%S_%p")
-		path = Path(f"./incoming_web_data_zips")
-		path.parent.mkdir(exist_ok=True)
+		todays_date = datetime.now().strftime("%Y_%m_%d")
+		path = Path(f"./incoming_web_data_zips/")
+		path.mkdir(exist_ok=True)
 
 		zipf = ZipFile(f"./incoming_web_data_zips/rss_run_{todays_date}.zip", "w", zipfile.ZIP_DEFLATED)
 		zipdir("./incoming_web_data", zipf)
 		zipf.close()
-		# with ZipFile(filename, "a") as zf:
-		# 	zf.write("./incoming_web_data")
 
 	else:
 		return None
