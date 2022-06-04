@@ -5,5 +5,5 @@ trash/
 *.db
 *.csv
 temp.txt
-newdomains.txt
+new_domains.txt
 city_data

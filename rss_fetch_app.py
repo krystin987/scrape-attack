@@ -1,18 +1,15 @@
-from distutils.command.clean import clean
-import shutil
 import zipfile
-from newspaper import Article
-import sqlfile
-from datetime import datetime
-from pathlib import Path
 import feedparser
 import scrape 
 import feeds
 import tldextract
 import os
 import json
+from distutils.command.clean import clean
+from newspaper import Article
+from datetime import datetime
+from pathlib import Path
 from zipfile import ZipFile
-
 from FeatureExtractor import SimpleExtractor
 from FeatureExtractor import HandTunedExtractor
 
@@ -142,9 +139,13 @@ def get_posts_details(posts=None):
 						},
 					(article_dir / "metadata.json").open("w")
 					)
+			else:
+				with open("./assets/new_domains.txt", "a") as f:
+						f.write(clean_url_link)
+						f.write("\n")
 
-
-		todays_date = datetime.now().strftime("%Y_%m_%d")
+		time_of_day = "pm" if datetime.now().hour > 12 else "am"
+		todays_date = datetime.now().strftime(f"%Y_%m_%d_{time_of_day}")
 		path = Path(f"./incoming_web_data_zips/")
 		path.mkdir(exist_ok=True)
 
@@ -170,15 +171,3 @@ def main():
 	get_posts_details(posts)
 
 main()
-
-
-# with requests.get(clean_url_link, headers=HEADERS, timeout=10) as response:
-# 	# Most of the times the encoding is utf-8 but in edge cases
-# 	# we set it to ISO-8859-1 when it is present in the HTML header.
-# 	if "iso-8859-1" in response.text.lower():
-# 		response.encoding = "iso-8859-1"
-# 	elif response.encoding == "ISO-8859-1":
-# 		response.encoding = "utf-8"
-
-# html_source = response.text.lower()
-# article_body = scrape.scrape_html(html_source)
