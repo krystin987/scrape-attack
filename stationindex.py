@@ -3,7 +3,7 @@ import sqlite3
 import json
 from sqlite3 import Error
 from bs4 import BeautifulSoup
-from scrape import clean_url
+from pull_internet_data.scrape import clean_url
 import json
 import tldextract
 
