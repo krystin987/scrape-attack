@@ -160,14 +160,13 @@ def get_posts_details(posts=None):
 def main():
 	feed_url = feeds.urls
 	posts = []
-	for k in feed_url.values():
-		# get_posts_details(rss = k) 
-		google_rss = google_rss = feedparser.parse(k)
-		post_dict = google_rss.entries
-
-		for post in post_dict:
-			posts.append(post)
-
+	for label, url in feed_url.items():
+		print(f"fetching {label}")
+		google_rss = google_rss = feedparser.parse(url)
+		posts.extend(google_rss.entries)
+	
+	print(len(posts), "entries")
 	get_posts_details(posts)
 
-main()
+if __name__ == "__main__": #pattern for fetching positional arguments
+    main()
