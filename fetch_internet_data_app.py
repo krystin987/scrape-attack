@@ -1,17 +1,19 @@
 import zipfile
 import feedparser
-import pull_internet_data.scrape as scrape 
-import pull_internet_data.feeds as feeds
 import tldextract
 import os
 import json
+import pull_internet_data.scrape as scrape 
+import pull_internet_data.feeds as feeds
+from pull_internet_data.FeatureExtractor import SimpleExtractor
+from pull_internet_data.FeatureExtractor import HandTunedExtractor
+
 from distutils.command.clean import clean
 from newspaper import Article
 from datetime import datetime
 from pathlib import Path
 from zipfile import ZipFile
-from pull_internet_data.FeatureExtractor import SimpleExtractor
-from pull_internet_data.FeatureExtractor import HandTunedExtractor
+
 
 # count the rss feed items and log whether all were parsed or if any were skipped and if so which ones
 
