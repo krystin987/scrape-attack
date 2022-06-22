@@ -1,6 +1,7 @@
 import re, time, socket, os, datetime, math
 import urllib.request, urllib.error, urllib.parse
 
+from pathlib import Path
 from os.path import join as pjoin
 from webbrowser import open_new_tab
 
@@ -78,9 +79,6 @@ def stripTags(pageContents):
 
     return text
 
-# Given a text string, remove all non-alphanumeric
-# characters (using Unicode definition of alphanumeric).
-
 def stripNonAlphaNum(text):
     return re.compile(r'\W+', re.UNICODE).split(text)
 
@@ -105,12 +103,9 @@ def webPageToText(url):
     text = stripTags(html).lower()
     return text
 
-# Given name of calling program, a url and a string to wrap,
-# output string in html body with basic metadata and open in Firefox tab.
-
-def wrapStringInHTMLMac(program, url, body):
+def wrapStringInHTMLMac(art_id, url, body, rss_topic, article_type):
     now = datetime.datetime.today().strftime("%Y%m%d-%H%M%S")
-    filename = program + '.html'
+    filename = f"./incoming_web_data/{rss_topic}/{art_id}/" + article_type + "-" + art_id + ".html"
     f = open(filename,'w')
 
     wrapper = """<html>
@@ -120,14 +115,14 @@ def wrapStringInHTMLMac(program, url, body):
     <body><p>URL: <a href=\"%s\">%s</a></p><p>%s</p></body>
     </html>"""
 
-    whole = wrapper % (program, now, url, url, body)
+    whole = wrapper % (art_id, now, url, url, body)
     f.write(whole)
     f.close()
 
-    #Change the filepath variable below to match the location of your directory
-    filename = 'file:///Users/krystinvilleneuve/programming-historian/python-html/' + filename
+    filename = f'file:///Users/krystinvilleneuve/dogbite/incoming_web_data/{rss_topic}/{art_id}/' + filename
 
-    open_new_tab(filename)
+    # open_new_tab(filename)
+
 
 # Given a list of words and a number n, return a list
 # of n-grams.
@@ -163,96 +158,3 @@ def prettyPrintKWIC(kwic):
     outstring += ' '.join(kwic[(keyindex+1):])
 
     return outstring
-
-#create URLs for search results pages and save the files
-def getSearchResults(query, kwparse, fromYear, fromMonth, toYear, toMonth, entries):
-
-    import urllib.request, math, os, re, time
-
-    cleanQuery = re.sub(r'\W+', '', query)
-    if not os.path.exists(cleanQuery):
-        os.makedirs(cleanQuery)
-
-    startValue = 0
-
-    #Determine how many files need to be downloaded.
-    pageCount = entries / 10
-    pageCount = math.ceil(pageCount)
-
-    for pages in range(1, pageCount +1):
-
-        #each part of the URL. Split up to be easier to read.
-        url = 'https://www.oldbaileyonline.org/search.jsp?gen=1&form=searchHomePage&_divs_fulltext='
-        url += query
-        url += '&kwparse=' + kwparse
-        url += '&_divs_div0Type_div1Type=sessionsPaper_trialAccount'
-        url += '&fromYear=' + fromYear
-        url += '&fromMonth=' + fromMonth
-        url += '&toYear=' + toYear
-        url += '&toMonth=' + toMonth
-        url += '&start=' + str(startValue)
-        url += '&count=0'
-
-        #download the page and save the result.
-        response = urllib.request.urlopen(url)
-        webContent = response.read().decode('UTF-8')
-        filename = cleanQuery + '/' + 'search-result' + str(startValue)
-        f = open(filename + ".html", 'w')
-        f.write(webContent)
-        f.close
-
-        startValue = startValue + 10
-
-        #pause for 3 seconds
-        time.sleep(3)
-
-def getIndivTrials(query):
-
-    failedAttempts = []
-
-    #import built-in python functions for building file paths
-
-
-    cleanQuery = re.sub(r'\W+', '', query)
-    searchResults = os.listdir(cleanQuery)
-
-    urls = []
-
-    #find search-results pages
-    for files in searchResults:
-        if files.find("search-result") != -1:
-            f = open(cleanQuery + "/" + files, 'r')
-            text = f.read().split(" ")
-            f.close()
-
-            #look for trial IDs
-            for words in text:
-                if words.find("browse.jsp?id=") != -1:
-                    #isolate the id
-                    urls.append(words[words.find("id=") +3: words.find("&")])
-
-    for items in urls:
-        #generate the URL
-        url = "http://www.oldbaileyonline.org/print.jsp?div=" + items
-
-        #download the page
-        socket.setdefaulttimeout(10)
-        try:
-            response = urllib.request.urlopen(url)
-            webContent = response.read().decode('UTF-8')
-
-            #create the filename and place it in the new directory
-            filename = items + '.html'
-            filePath = pjoin(cleanQuery, filename)
-
-            #save the file
-            f = open(filePath, 'w')
-            f.write(webContent)
-            f.close
-        except urllib.error.URLError:
-            failedAttempts.append(url)
-
-        #pause for 3 seconds
-        time.sleep(3)
-
-    print("failed to download: " + str(failedAttempts))
