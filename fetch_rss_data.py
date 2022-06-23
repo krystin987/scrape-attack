@@ -62,6 +62,7 @@ def get_posts_details(posts=None,topic=None):
                     },
                 (article_dir / f"metadata-{article_id}.json").open("w")
                 )
+                
             else:
                 with open("./assets/new_domains.txt", "a") as f:
                     f.write(clean_url_link)
@@ -76,8 +77,8 @@ def get_posts_details(posts=None,topic=None):
         zipf.close()
     else:
         return None
-#load the json
-def main(rss_topic):
+
+def fetch_urls(rss_topic):
 
     f = open(RSS_FEEDS)
     data = json.load(f)
@@ -90,8 +91,13 @@ def main(rss_topic):
         posts.extend(google_rss.entries)
 
     print(len(posts), "entries")
-    get_posts_details(posts, rss_topic)
     f.close()
+    return posts
+
+#load the json
+def main(rss_topic):
+    posts = fetch_urls(rss_topic)
+    get_posts_details(posts, rss_topic)
 
 if __name__ == "__main__": #pattern for fetching positional arguments
     import sys

@@ -13,5 +13,9 @@
         "toddler_gun": "https://www.google.com/alerts/feeds/05255969604759675738/13799833003712160441",
         "toddler_kill": "https://www.google.com/alerts/feeds/05255969604759675738/17782578844726787931",
         "toddler_shoot": "https://www.google.com/alerts/feeds/05255969604759675738/17782578844726785720"
+    }, 
+    "tests": {
+        "dog_test": "https://en.wikipedia.org/wiki/List_of_fatal_dog_attacks_in_the_United_States",
+        "gun_test": "https://en.wikipedia.org/wiki/List_of_mass_shootings_in_the_United_States"
     }
 }
