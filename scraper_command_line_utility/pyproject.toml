@@ -6,7 +6,7 @@ authors = [{name = "Krystin Villeneuve"}]
 dynamic = ["version", "description"]
 
 dependencies = [
-    #"stationindex"
+    "stationindex"  # this is your other Python package!
 ]
 
 [project.urls]
