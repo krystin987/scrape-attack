@@ -23,7 +23,7 @@ push:  ## Push code with tags
 
 test :
 	mkdir -p results/
-	python -m pytest -ra
+	python -m pytest -ra -s
 
 %.shiv :
 	shiv -o "$@" -c stationindex .

@@ -6,7 +6,10 @@ authors = [{name = "Krystin Villeneuve"}]
 dynamic = ["version", "description"]
 
 dependencies = [
-    "stationindex"  # this is your other Python package!
+    "locationtagger",
+    "nltk",
+    "numpy",
+    "spacy",
 ]
 
 [project.urls]
