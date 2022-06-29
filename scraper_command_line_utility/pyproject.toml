@@ -23,6 +23,7 @@ scrape-and-collect = "scraper.main:main"
 requires = [
     "flit_core >=3.2,<4",
     "lxml",
+    "shiv",
     "tox",
 ]
 build-backend = "flit_core.buildapi"

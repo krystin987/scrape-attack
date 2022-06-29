@@ -21,5 +21,5 @@ test :
 	mkdir -p results/
 	python -m pytest -ra
 
-%.shiv :
+../%.shiv :
 	shiv -o "$@" -c scrape-and-collect .
