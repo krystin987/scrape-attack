@@ -1,4 +1,4 @@
-import text_parser.local_parse as local_parse
+from . import local_parse
 
 n = 7
 

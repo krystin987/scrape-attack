@@ -1,5 +1,5 @@
 # html-to-freq-3.py
-import text_parser.local_parse as local_parse
+from . import local_parse
 
 # create sorted dictionary of word-frequency pairs
 def frequency_html(text, articleId, url, rss_topic):

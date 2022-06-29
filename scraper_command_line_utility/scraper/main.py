@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 import sys
 
-from fetch_rss_data import fetch_urls, get_posts_details
+from .fetch_rss_data import fetch_urls, get_posts_details
 
 
 def main():  # pylint: disable=inconsistent-return-statements

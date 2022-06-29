@@ -10,11 +10,11 @@ import tldextract
 from .paths import *
 
 from newspaper import Article
-from pull_internet_data.FeatureExtractor import SimpleExtractor
-import pull_internet_data.scrape as scrape
-import text_parser.get_keywords as get_keywords
-import text_parser.html_to_freq as freq
-import text_parser.html_to_kwic as kwic
+from .pull_internet_data.FeatureExtractor import SimpleExtractor
+from .pull_internet_data import scrape
+from .text_parser import get_keywords
+from .text_parser import html_to_freq as freq
+from .text_parser import html_to_kwic as kwic
 
 
 
