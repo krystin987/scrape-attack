@@ -9,8 +9,8 @@ def main():  # pylint: disable=inconsistent-return-statements
     Example command-line utility
     """
     # pylint: disable=broad-except
-    args = sys.argv[
-           1:]  # By UNIX convention, sys.argv is a list of arguments, except the first one is the filename of this script
+    # By UNIX convention, sys.argv is a list of arguments, except the first one is the filename of this script
+    args = sys.argv[1:]
     for arg in args:
         posts = fetch_urls(arg)
         get_posts_details(posts, arg)
