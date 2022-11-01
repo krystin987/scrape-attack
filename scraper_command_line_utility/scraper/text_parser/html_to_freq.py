@@ -2,7 +2,7 @@
 from . import local_parse
 
 # create sorted dictionary of word-frequency pairs
-def frequency_html(text, articleId, url, rss_topic):
+def frequency_html(text, articleId, url, rss_topic, directory):
     # text = local_parse.stripTags(text).lower()
     fullwordlist = local_parse.stripNonAlphaNum(text)
     wordlist = local_parse.removeStopwords(fullwordlist, local_parse.stopwords)
@@ -14,4 +14,4 @@ def frequency_html(text, articleId, url, rss_topic):
     for s in sorteddict:
         outstring += str(s)
         outstring += "<br />"
-    local_parse.wrapStringInHTMLMac(articleId, url, outstring, rss_topic, "freq")
+    local_parse.wrapStringInHTMLMac(articleId, url, outstring, rss_topic, "freq", directory)

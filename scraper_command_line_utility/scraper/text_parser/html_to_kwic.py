@@ -2,7 +2,7 @@ from . import local_parse
 
 n = 7
 
-def transform_html_to_kwic(article, articleId, url, rss_topic):
+def transform_html_to_kwic(article, articleId, url, rss_topic, directory):
     text = local_parse.stripTags(article).lower()
     fullwordlist = ('# ' * (n//2)).split()
     fullwordlist += local_parse.stripNonAlphaNum(text)
@@ -21,4 +21,4 @@ def transform_html_to_kwic(article, articleId, url, rss_topic):
         outstr += 'Keyword not found in source'
 
     outstr += '</pre>'
-    local_parse.wrapStringInHTMLMac(articleId, url, outstr, rss_topic, "kwic")
+    local_parse.wrapStringInHTMLMac(articleId, url, outstr, rss_topic, "kwic", directory)

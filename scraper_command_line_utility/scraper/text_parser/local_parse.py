@@ -103,9 +103,9 @@ def webPageToText(url):
     text = stripTags(html).lower()
     return text
 
-def wrapStringInHTMLMac(art_id, url, body, rss_topic, article_type):
+def wrapStringInHTMLMac(art_id, url, body, rss_topic, article_type, directory):
     now = datetime.datetime.today().strftime("%Y%m%d-%H%M%S")
-    filename = f"./incoming_web_data/{rss_topic}/{art_id}/" + article_type + "-" + art_id + ".html"
+    filename = f"{directory}/{rss_topic}/{art_id}/" + article_type + "-" + art_id + ".html"
     f = open(filename,'w')
 
     wrapper = """<html>
@@ -119,7 +119,7 @@ def wrapStringInHTMLMac(art_id, url, body, rss_topic, article_type):
     f.write(whole)
     f.close()
 
-    filename = f'file:///Users/krystinvilleneuve/dogbite/incoming_web_data/{rss_topic}/{art_id}/' + filename
+    filename = f"/{directory}/{rss_topic}/{art_id}/" + filename
 
     # open_new_tab(filename)
 
