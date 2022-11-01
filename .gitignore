@@ -11,4 +11,6 @@ incoming_web_data/
 .DS_STORE
 .vscode/
 
+scraper.shiv
+
 venv
