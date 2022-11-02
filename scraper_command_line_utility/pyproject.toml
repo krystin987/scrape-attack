@@ -1,0 +1,29 @@
+[project]
+name = "scraper"
+authors = [{name = "Krystin Villeneuve"}]
+#license = {file = "LICENSE"}
+#classifiers = ["License :: OSI Approved :: MIT License"]
+dynamic = ["version", "description"]
+
+dependencies = [
+    "locationtagger",
+    "nltk",
+    "numpy",
+    "spacy",
+]
+
+[project.urls]
+Home = "https://github.com/krystin987/scrape-attack"
+
+[project.scripts]
+# A new command-line utility called scrape-and-collect will be installed
+scrape-and-collect = "scraper.main:main"
+
+[build-system]
+requires = [
+    "flit_core >=3.2,<4",
+    "lxml",
+    "shiv",
+    "tox",
+]
+build-backend = "flit_core.buildapi"
