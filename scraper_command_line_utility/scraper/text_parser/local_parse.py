@@ -105,21 +105,21 @@ def webPageToText(url):
 
 def wrapStringInHTMLMac(art_id, url, body, rss_topic, article_type, directory):
     now = datetime.datetime.today().strftime("%Y%m%d-%H%M%S")
+
     filename = f"{directory}/{rss_topic}/{art_id}/" + article_type + "-" + art_id + ".html"
-    f = open(filename,'w')
+    with open (filename, "x") as f:
+        wrapper = """<html>
+        <head>
+        <title>%s output - %s</title>
+        </head>
+        <body><p>URL: <a href=\"%s\">%s</a></p><p>%s</p></body>
+        </html>"""
 
-    wrapper = """<html>
-    <head>
-    <title>%s output - %s</title>
-    </head>
-    <body><p>URL: <a href=\"%s\">%s</a></p><p>%s</p></body>
-    </html>"""
+        whole = wrapper % (art_id, now, url, url, body)
+        f.write(whole)
+        f.close()
 
-    whole = wrapper % (art_id, now, url, url, body)
-    f.write(whole)
-    f.close()
-
-    filename = f"/{directory}/{rss_topic}/{art_id}/" + filename
+    # fname = f"/{directory}/{rss_topic}/{art_id}/" + filename
 
     # open_new_tab(filename)
 

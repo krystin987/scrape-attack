@@ -2,7 +2,6 @@ from distutils.command.clean import clean
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
 import re
-from datetime import datetime
 
 ARTICLE_MINIMUM_LENGTH = 650
 

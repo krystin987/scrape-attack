@@ -21,3 +21,6 @@ def load_rss_config():
 def load_whitelist():
     return (CONFIG_DIR / "whitelist.txt").read_text().splitlines()
 
+def load_nopelist():
+    return (CONFIG_DIR / "nopelist.txt").read_text().splitlines()
+
