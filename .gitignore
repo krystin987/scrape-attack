@@ -5,13 +5,12 @@ trash/
 *.db
 *.csv
 temp.txt
-new_domains.txt
 city_data
 incoming_web_data/
 .DS_STORE
 .vscode/
 /examples
-
+/assets/
 scraper.shiv
 scraper_command_line_utility/gun/
 scraper_command_line_utility/dog/
