@@ -19,5 +19,5 @@ jobs:
         run: |
           echo -e "import nltk\nnltk.download('punkt')" | python3
       - name: Run utility tool
-        run: cd scraper_command_line_utility
+        working-directory: ./scraper_command_line_utility
         run: python3 -m scraper dog
