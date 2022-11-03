@@ -17,7 +17,7 @@ jobs:
           python -m pip install --upgrade pip
       - name: install tensorflow
         run: |
-          pip install tensorflow
+          python3 -m pip install tensorflow
       - name: install reqs
         run: |
           pip install -r requirements.txt
