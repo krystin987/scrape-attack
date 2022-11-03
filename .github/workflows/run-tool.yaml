@@ -18,5 +18,6 @@ jobs:
       - name: Install NLKT   
         run: |
           echo -e "import nltk\nnltk.download('punkt')" | python3
-      - name: Run rss thing
-        run: python3 -m scraper_command_line_utility/scraper dog
+      - name: Run utility tool
+        run: cd scraper_command_line_utility
+        run: python3 -m scraper dog
