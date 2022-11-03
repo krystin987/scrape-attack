@@ -9,6 +9,9 @@ jobs:
         uses: actions/setup-python@v3
         with:
           python-version: '3.x'
+      - name: Install NLKT   
+        run: |
+          echo -e "import nltk\nnltk.download('punkt')" | python3
       - name: Install lxml dependencies
         run: |
           sudo apt-get install libxml2-dev libxslt1-dev
@@ -27,9 +30,6 @@ jobs:
       - name: install io-gcs-filesystem
         run: |
           python -m pip install tensorflow-io
-      - name: Install NLKT   
-        run: |
-          echo -e "import nltk\nnltk.download('punkt')" | python3
       - name: Run utility tool
         working-directory: ./scraper_command_line_utility
         run: python3 -m scraper dog
