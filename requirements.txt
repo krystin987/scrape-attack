@@ -75,10 +75,10 @@ spacy==3.3.0
 spacy-legacy==3.0.9
 spacy-loggers==1.0.2
 srsly==2.4.3
+tensorflow==2.9.1
 tensorboard==2.9.1
 tensorboard-data-server==0.6.1
 tensorboard-plugin-wit==1.8.1
-tensorflow==2.10.0
 tensorflow-estimator==2.9.0
 tensorflow-io-gcs-filesystem==0.26.0
 termcolor==1.1.0
