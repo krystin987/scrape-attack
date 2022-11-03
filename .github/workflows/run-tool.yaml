@@ -12,9 +12,9 @@ jobs:
       - name: Install lxml dependencies
         run: |
           sudo apt-get install libxml2-dev libxslt1-dev
-      - name: Install pip3
+      - name: Install pip
         run: |
-          python -m pip3 install --upgrade pip
+          python -m pip install --upgrade pip
       - name: install tensorflow
         run: |
           pip install tensorflow
