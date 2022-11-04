@@ -17,7 +17,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-      - uses: krystin987/ssh-key-action@v2
+      - uses: krystin987/ssh-key-action@v1
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           name: id_rsa
