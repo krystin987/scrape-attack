@@ -17,12 +17,17 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-      # - name: Install NLKT   
-      #   run: |
-      #     echo -e "import nltk\nnltk.download('punkt')" | python3
       - name: run reqs
         run: |
           pip install -r requirements.txt
       - name: Run utility tool
         working-directory: ./scraper_command_line_utility
         run: python3 -m scraper dog
+      - name: Create branch and commit
+        uses: EndBug/add-and-commit@v9
+        with:
+          add: '.'
+          default_author: github_actions
+          message: 'update article data'
+          new_branch: scrape-attack/updated-gh-actions
+          push: origin scrape-attack/updated-gh-actions --set-upstream --force
