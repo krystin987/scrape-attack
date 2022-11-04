@@ -17,19 +17,20 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-      - name: check token
-        run: |
-            echo: ${{ github.token }}
       - name: Check out code
         uses: actions/checkout@v1
         env:
           GITHUB_TOKEN: ${{ github.token }}
       - name: Initialize mandatory git config
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           git config -l
           git config user.name "Krystin Villeneuve"
           git config user.email krystinv@gmail.com
       - name: Create data update branch
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: git checkout github_actions
       - name: install dependencies
         run: |
@@ -39,13 +40,21 @@ jobs:
         run: python3 -m scraper dog
       - name: Commit changelog and manifest files
         id: make-commit
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           git add .
           git commit --message "update data with run ${{ github.event.inputs.versionName }}"
           echo "::set-output name=commit::$(git rev-parse HEAD)"
       - name: Remove remote
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: git remote rm origin
       - name: Add remote
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: git remote add origin git@github.com:krystin987/scrape-attack.git
       - name: Push new branch
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: git push origin github_action_update
