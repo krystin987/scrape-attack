@@ -31,7 +31,7 @@ jobs:
       - name: Create data update branch
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: git checkout github_actions
+        run: git checkout github_action_update
       - name: install dependencies
         run: |
           pip install -r requirements.txt
