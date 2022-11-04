@@ -1,6 +1,6 @@
-absl-py==1.1.0
-astunparse==1.6.3
-attrs==21.4.0
+# absl-py==1.1.0
+# astunparse==1.6.3
+# attrs==21.4.0
 beautifulsoup4==4.11.1
 # blis==0.7.7
 cachetools==5.2.0
@@ -17,9 +17,9 @@ feedparser==6.0.8
 filelock==3.6.0
 flatbuffers==1.12
 gast==0.4.0
-google-auth==2.8.0
-google-auth-oauthlib==0.4.6
-google-pasta==0.2.0
+# google-auth==2.8.0
+# google-auth-oauthlib==0.4.6
+# google-pasta==0.2.0
 html5lib==1.1
 idna==3.3
 importlib-metadata==4.11.4

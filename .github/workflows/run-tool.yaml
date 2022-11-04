@@ -17,23 +17,22 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-      - name: Echo home
-        run: 
-          echo $HOME
       - name: Check out code
         uses: actions/checkout@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Initialize mandatory git config
+        run: |
+          git config user.name "Krystin Villeneuve"
+          git config user.email krystinv@gmail.com
+      - name: Create data update branch
+        run: git checkout -b github_action_update
       - name: run reqs
         run: |
           pip install -r requirements.txt
       - name: Run utility tool
         working-directory: ./scraper_command_line_utility
         run: python3 -m scraper dog
-      - name: Create data update branch
-        run: git checkout -b github_action_update
-      - name: Initialize mandatory git config
-        run: |
-          git config user.name "Krystin Villeneuve"
-          git config user.email krystinv@gmail.com
       - name: Commit changelog and manifest files
         id: make-commit
         run: |
