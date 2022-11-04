@@ -22,7 +22,7 @@ jobs:
           echo $HOME
       - name: run reqs
         run: |
-          pip install -r requirements.txt
+          pip install -r /home/runner/work/requirements.txt
       - name: Run utility tool
         working-directory: ./scraper_command_line_utility
         run: python3 -m scraper dog
