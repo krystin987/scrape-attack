@@ -20,14 +20,14 @@ jobs:
       - name: Echo home
         run: 
           echo $HOME
+      - name: Check out code
+        uses: actions/checkout@v1
       - name: run reqs
         run: |
-          pip install -r /home/runner/work/requirements.txt
+          python3 -m pip install -r requirements.txt
       - name: Run utility tool
         working-directory: ./scraper_command_line_utility
         run: python3 -m scraper dog
-      - name: Check out code
-        uses: actions/checkout@v1
       - name: Create release branch
         run: git checkout -b v${{ github.event.inputs.versionName }}
       - name: Initialize mandatory git config
