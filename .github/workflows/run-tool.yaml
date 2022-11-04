@@ -22,9 +22,6 @@ jobs:
           pip install -r requirements.txt
       - name: Run utility tool
         working-directory: ./scraper_command_line_utility
-  commit:
-    runs-on: ubuntu-latest
-    steps:
       - name: Check out code
         uses: actions/checkout@v1
       - name: Create release branch
