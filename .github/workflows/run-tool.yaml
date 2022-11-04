@@ -57,4 +57,4 @@ jobs:
       - name: Push new branch
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: git push origin github_action_update
+        run: git push origin github_action
