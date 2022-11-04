@@ -24,11 +24,11 @@ jobs:
         uses: actions/checkout@v1
       - name: run reqs
         run: |
-          python3 -m pip install -r requirements.txt
+          pip install -r requirements.txt
       - name: Run utility tool
         working-directory: ./scraper_command_line_utility
         run: python3 -m scraper dog
-      - name: Create release branch
+      - name: Create data update branch
         run: git checkout -b v${{ github.event.inputs.versionName }}
       - name: Initialize mandatory git config
         run: |
