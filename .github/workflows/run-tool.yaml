@@ -22,9 +22,6 @@ jobs:
           pip install -r requirements.txt
       - name: Run utility tool
         working-directory: ./scraper_command_line_utility
-  commit:
-    runs-on: ubuntu-latest
-    steps:
       - name: Check out code
         uses: actions/checkout@v1
       - name: Create release branch
@@ -33,11 +30,11 @@ jobs:
         run: |
           git config user.name "GitHub Actions"
           git config user.email noreply@github.com
-          - name: Commit changelog and manifest files
-      id: make-commit
-      run: |
-        git add .
-        git commit --message "update data with run ${{ github.event.inputs.versionName }}"
-        echo "::set-output name=commit::$(git rev-parse HEAD)"
-    - name: Push new branch
-      run: git push origin v${{ github.event.inputs.versionName }}
+      - name: Commit changelog and manifest files
+        id: make-commit
+        run: |
+          git add .
+          git commit --message "update data with run ${{ github.event.inputs.versionName }}"
+          echo "::set-output name=commit::$(git rev-parse HEAD)"
+      - name: Push new branch
+        run: git push origin v${{ github.event.inputs.versionName }}
