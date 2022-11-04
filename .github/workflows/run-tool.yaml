@@ -39,6 +39,8 @@ jobs:
           git add .
           git commit --message "update data with run ${{ github.event.inputs.versionName }}"
           echo "::set-output name=commit::$(git rev-parse HEAD)"
+      - name: Remove remote
+        run: git remote rm origin
       - name: Add remote
         run: git remote add origin git@github.com:krystin987/scrape-attack.git
       - name: Push new branch
