@@ -28,7 +28,7 @@ jobs:
         working-directory: ./scraper_command_line_utility
         run: |
           python3 -m scraper dog
-          git add scraper_command_line_utility/scraper/cache
+          git add .
           git tag run-$(date +%Y%m%d%H%M%S)
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
