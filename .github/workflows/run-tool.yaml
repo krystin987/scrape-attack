@@ -22,6 +22,7 @@ jobs:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.LITERALLY_ANYTHING }}
       - name: fool the system
+        working-directory: ./scraper_command_line_utility
         run: |
           git checkout github_action_update
           date +'%Y%m%d-%H%M%S' > timestamp.txt
@@ -35,9 +36,9 @@ jobs:
       #     git add .
       #     git tag run-$(date +%Y%m%d%H%M%S)
       - name: commit etc
-        with:
-          ref: ${{ github.head_ref }}
-          token: ${{ secrets.LITERALLY_ANYTHING }}
+        # with:
+        #   ref: ${{ github.head_ref }}
+        #   token: ${{ secrets.LITERALLY_ANYTHING }}
         run: |
           git add .
           git tag run-$(date +%Y%m%d%H%M%S)
