@@ -56,8 +56,8 @@ jobs:
         run: git remote add origin git@github.com:krystin987/scrape-attack.git
       - name: Push new branch
       - name: ls -a via ssh
+        run: git push origin github_action_update
         # uses: garygrossgarten/github-action-ssh@release
         with:
           username: krystin987
           privateKey: ${{ secrets.PRIVATE_KEY}}
-          run: git push origin github_action_update
