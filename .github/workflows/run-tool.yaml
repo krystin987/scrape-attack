@@ -23,7 +23,7 @@ jobs:
           ssh-key: ${{secrets.ACT_SSH_PRIVATE_KEY}}
       - run: |
           date +'%Y%m%d-%H%M%S' > timestamp.txt
-          git config user.name 'Krystin Villeneuve'
+          git config user.name ${{ github.actor }}
           git config user.email krystinv@gmail.com
           git add .
           git commit -m "generated"
