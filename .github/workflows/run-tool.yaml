@@ -21,22 +21,34 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           token: ${{ secrets.LITERALLY_ANYTHING }}
-      - name: Install dependencies
+        run: git checkout github_action_update
+      - name: fool the system
         run: |
-          pip install -r requirements.txt
-      - name: Run utility tool
-        working-directory: ./scraper_command_line_utility
+          date +'%Y%m%d-%H%M%S' > timestamp.txt
+      # - name: Install dependencies
+      #   run: |
+      #     pip install -r requirements.txt
+      # - name: Run utility tool
+      #   working-directory: ./scraper_command_line_utility
+      #   run: |
+      #     python3 -m scraper dog
+      #     git add .
+      #     git tag run-$(date +%Y%m%d%H%M%S)
+      - name: commit etc
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.LITERALLY_ANYTHING }}
         run: |
-          python3 -m scraper dog
           git add .
           git tag run-$(date +%Y%m%d%H%M%S)
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          commit_message: Scheduled update
-          branch: github_action_update
-          commit_user_name: Krystin Villeneuve # defaults to "github-actions[bot]"
-          commit_user_email: krystinv@gmail.com # defaults to "github-actions[bot]@users.noreply.github.com"
-          commit_author: krystin987@github.com 
-          push_options: --force
-          skip_dirty_check: true 
-          create_branch: true
+          git commit -m 'update'
+          git push origin update --force
+      # - uses: stefanzweifel/git-auto-commit-action@v4
+      #   with:
+      #     commit_message: Scheduled update
+      #     branch: github_action_update
+      #     commit_user_name: Krystin Villeneuve # defaults to "github-actions[bot]"
+      #     commit_user_email: krystinv@gmail.com # defaults to "github-actions[bot]@users.noreply.github.com"
+      #     commit_author: krystin987@github.com 
+      #     push_options: --force
+      #     skip_dirty_check: true 
+      #     create_branch: true
