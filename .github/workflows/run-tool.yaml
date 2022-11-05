@@ -26,6 +26,12 @@ jobs:
         run: |
           git checkout github_action_update
           date +'%Y%m%d-%H%M%S' > timestamp.txt
+          git config --global user.email "krystinv@gmail.com"
+          git config --global user.name "Krystin Villeneuve"
+          git add .
+          git tag run-$(date +%Y%m%d%H%M%S)
+          git commit -m 'update'
+          git push origin github_action_update --force
       # - name: Install dependencies
       #   run: |
       #     pip install -r requirements.txt
@@ -35,17 +41,14 @@ jobs:
       #     python3 -m scraper dog
       #     git add .
       #     git tag run-$(date +%Y%m%d%H%M%S)
-      - name: commit etc
-        with:
-        #   ref: ${{ github.head_ref }}
-          token: ${{ secrets.LITERALLY_ANYTHING }}
-        run: |
-          git config --global user.email "krystinv@gmail.com"
-          git config --global user.name "Krystin Villeneuve"
-          git add .
-          git tag run-$(date +%Y%m%d%H%M%S)
-          git commit -m 'update'
-          git push origin github_action_update --force
+
+        # run: |
+          # git config --global user.email "krystinv@gmail.com"
+          # git config --global user.name "Krystin Villeneuve"
+          # git add .
+          # git tag run-$(date +%Y%m%d%H%M%S)
+          # git commit -m 'update'
+          # git push origin github_action_update --force
       # - uses: stefanzweifel/git-auto-commit-action@v4
       #   with:
       #     commit_message: Scheduled update
