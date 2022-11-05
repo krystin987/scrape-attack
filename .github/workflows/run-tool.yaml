@@ -18,10 +18,11 @@ jobs:
         run: |
           python -m pip install --upgrade pip
       # - uses: actions/checkout@v3
-      - with:
-          ssh-key: ${{secrets.ACT_SSH_PRIVATE_KEY}}
-          working-directory: ./scraper_command_line_utility
-      - run: |
+      # - with:
+      #     ssh-key: ${{secrets.ACT_SSH_PRIVATE_KEY}}
+      #     working-directory: ./scraper_command_line_utility
+      - name: good lord go
+        run: |
           git checkout github_action_update
           date +'%Y%m%d-%H%M%S' > timestamp.txt
           git config user.name ${{ github.actor }}
