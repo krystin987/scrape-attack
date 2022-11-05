@@ -44,7 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: |
           git add .
-          git commit --message "update data with run ${{ github.event.inputs.versionName }}"
+          git commit --message "update data with periodic run ${{ github.event.inputs.versionName }}"
           echo "::set-output name=commit::$(git rev-parse HEAD)"
       - name: Remove remote
         env:
@@ -54,10 +54,10 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: git remote add origin git@github.com:krystin987/scrape-attack.git
-      - name: ssh, for the love of god
-        uses: webfactory/ssh-agent@v0.6.0
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
         with:
-            ssh-private-key: ${{ secrets.ACT_SSH_PRIVATE_KEY }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }} 
       - name: Push new branch
         env:
           GITHUB_TOKEN: ${{ github.token }}
