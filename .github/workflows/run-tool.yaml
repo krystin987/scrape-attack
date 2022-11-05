@@ -20,12 +20,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           token: ${{secrets.LITERALLY_ANYTHING}}
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
       - name: commit and whatnot
         working-directory: ./scraper_command_line_utility
         run: |
+          pip install -r requirements.txt
           git checkout github_action_update
           git config user.name ${{ github.actor }}
           git config user.email krystinv@gmail.com
