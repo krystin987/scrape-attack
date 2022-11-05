@@ -45,7 +45,7 @@ jobs:
           git add .
           git tag run-$(date +%Y%m%d%H%M%S)
           git commit -m 'update'
-          git push origin update --force
+          git push origin github_action_update --force
       # - uses: stefanzweifel/git-auto-commit-action@v4
       #   with:
       #     commit_message: Scheduled update
