@@ -19,9 +19,11 @@ jobs:
           python -m pip install --upgrade pip
       - name: Check out code
         uses: actions/checkout@v1
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - uses: webfactory/ssh-agent@v0.6.0
         with:
-          username: krystin987
-          privateKey: ${{ secrets.PRIVATE_KEY}}
+            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       - name: Initialize mandatory git config
         env:
           GITHUB_TOKEN: ${{ github.token }}
