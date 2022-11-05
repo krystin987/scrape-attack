@@ -34,6 +34,9 @@ jobs:
         with:
           commit_message: Scheduled update
           branch: github_action_update
+          commit_user_name: Krystin Villeneuve # defaults to "github-actions[bot]"
+          commit_user_email: krystinv@gmail.com # defaults to "github-actions[bot]@users.noreply.github.com"
+          commit_author: krystin987@github.com 
           push_options: --force
           skip_dirty_check: true 
           create_branch: true
