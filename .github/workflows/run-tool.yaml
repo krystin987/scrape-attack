@@ -57,6 +57,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: git remote add origin git@github.com:krystin987/scrape-attack.git
       - name: Push new branch
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         with:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           name: id_rsa
