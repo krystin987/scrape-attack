@@ -54,8 +54,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: git remote add origin git@github.com:krystin987/scrape-attack.git
+      - name: ssh, for the love of god
+        uses: webfactory/ssh-agent@v0.6.0
+        with:
+            ssh-private-key: ${{ secrets.ACT_SSH_PRIVATE_KEY }}
       - name: Push new branch
-        # uses: webfactory/ssh-agent@v0.6.0
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: git push origin github_action_update
-        # with:
-        ssh-private-key: ${{ secrets.ACT_SSH_PRIVATE_KEY }}
