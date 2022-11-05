@@ -19,7 +19,7 @@ jobs:
           python -m pip install --upgrade pip
       - uses: actions/checkout@v3
         with:
-          ssh-key: ${{secrets.ACT_SSH_PRIVATE_KEY}}
+          token: ${{secrets.LITERALLY_ANYTHING}}
       #     working-directory: ./scraper_command_line_utility
       - name: good lord go
         working-directory: ./scraper_command_line_utility
