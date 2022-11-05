@@ -40,6 +40,8 @@ jobs:
         #   ref: ${{ github.head_ref }}
         #   token: ${{ secrets.LITERALLY_ANYTHING }}
         run: |
+          git config --global user.email "krystinv@gmail.com"
+          git config --global user.name "Krystin Villeneuve"
           git add .
           git tag run-$(date +%Y%m%d%H%M%S)
           git commit -m 'update'
