@@ -57,5 +57,5 @@ jobs:
       - name: Push new branch
         # uses: webfactory/ssh-agent@v0.6.0
         run: git push origin github_action_update
-        with:
-          ssh-private-key: ${{ secrets.ACT_SSH_PRIVATE_KEY }}
+        # with:
+        ssh-private-key: ${{ secrets.ACT_SSH_PRIVATE_KEY }}
