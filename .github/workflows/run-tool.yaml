@@ -19,8 +19,9 @@ jobs:
           python -m pip install --upgrade pip
       - name: Check out code
         uses: actions/checkout@v1
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          username: krystin987
+          privateKey: ${{ secrets.PRIVATE_KEY}}
       - name: Initialize mandatory git config
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -55,9 +56,6 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         run: git remote add origin git@github.com:krystin987/scrape-attack.git
       - name: Push new branch
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: git push origin github_action_update
-        # uses: garygrossgarten/github-action-ssh@release
-        with:
-          username: krystin987
-          privateKey: ${{ secrets.PRIVATE_KEY}}
-
