@@ -23,7 +23,7 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
       - uses: webfactory/ssh-agent@v0.6.0
         with:
-            ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+            ssh-private-key: ${{ secrets.ACT_SSH_PRIVATE_KEY }}
       - name: Initialize mandatory git config
         env:
           GITHUB_TOKEN: ${{ github.token }}
