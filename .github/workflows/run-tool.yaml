@@ -36,9 +36,9 @@ jobs:
       #     git add .
       #     git tag run-$(date +%Y%m%d%H%M%S)
       - name: commit etc
-        # with:
+        with:
         #   ref: ${{ github.head_ref }}
-        #   token: ${{ secrets.LITERALLY_ANYTHING }}
+          token: ${{ secrets.LITERALLY_ANYTHING }}
         run: |
           git config --global user.email "krystinv@gmail.com"
           git config --global user.name "Krystin Villeneuve"
