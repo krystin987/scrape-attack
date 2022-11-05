@@ -58,6 +58,7 @@ jobs:
         uses: shimataro/ssh-key-action@v2
         with:
           key: ${{ secrets.ACT_SSH_PRIVATE_KEY }} 
+          known_hosts: 'localhost'
       - name: Push new branch
         env:
           GITHUB_TOKEN: ${{ github.token }}
