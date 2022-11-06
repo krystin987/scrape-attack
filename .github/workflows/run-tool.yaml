@@ -25,7 +25,7 @@ jobs:
       - name: commit and whatnot
         working-directory: ./scraper_command_line_utility
         run: |
-          git checkout -b github_action_${{ github.run_id }}
+          git checkout -b github_action_runID_${{ github.run_id }}
           git config user.name ${{ github.actor }}
           git config user.email krystinv@gmail.com
           python3 -m scraper dog
