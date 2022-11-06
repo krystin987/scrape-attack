@@ -1,6 +1,6 @@
-on:
-  schedule:
-    - cron: '0 */3 * * *'
+on: [push]
+  # schedule:
+  #   - cron: '0 */3 * * *'
 
 jobs:
   build:
@@ -31,7 +31,7 @@ jobs:
           git checkout actions_run
           git tag ${{ github.run_id }}
           git config user.name ${{ github.actor }}
-          git config user.email krystinv@gmail.com
+          git config user.email ${{secrets.EMAIL}}
           python3 -m scraper dog
           git add .
           git commit -m "generated"
