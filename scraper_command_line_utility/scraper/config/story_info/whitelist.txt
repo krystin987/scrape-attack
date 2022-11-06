@@ -920,3 +920,13 @@ itv.com
 lakegenevanews.net
 gazettetimes.com
 thetelegraphandargus.co.uk
+dispatch.com
+9news.com.au
+cdispatch.com
+coventrytelegraph.net
+7news.com.au
+the-sun.com
+portsmouth.co.uk
+timesofsandiego.com
+salisburyjournal.co.uk
+wiltshiretimes.co.uk
