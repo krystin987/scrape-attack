@@ -1,6 +1,6 @@
-on:
-  schedule:
-    - cron: '0 */3 * * *'
+on: [push]
+  # schedule:
+  #   - cron: '0 */3 * * *'
 
 jobs:
   build:
@@ -28,10 +28,11 @@ jobs:
       - name: commit and whatnot
         working-directory: ./scraper_command_line_utility
         run: |
-          git checkout -b github_action_runID_${{ github.run_id }}
+          git checkout actions_run
+          git tag ${{ github.run_id }}
           git config user.name ${{ github.actor }}
           git config user.email krystinv@gmail.com
           python3 -m scraper dog
           git add .
           git commit -m "generated"
-          git push --set-upstream origin github_action_runID_${{ github.run_id }} --force
+          git push --set-upstream origin actions_run --force
