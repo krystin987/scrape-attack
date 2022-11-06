@@ -1,6 +1,6 @@
-schedule:
-  - cron: '0 */3 * * *'
-  - cron: '0 */3 * * *'
+on: 
+  schedule:
+    - cron: '0 */3 * * *'
 
 jobs:
   build:
