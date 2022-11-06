@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 on: 
-=======
-on:
->>>>>>> master
   schedule:
     - cron: '0 */3 * * *'
 
