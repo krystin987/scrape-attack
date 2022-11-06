@@ -34,7 +34,7 @@ jobs:
           date +'%Y%m%d-%H%M%S' > timestamp.txt
           git add .
           git commit -m "generated"
-          git push --set-upstream origin github_action_runID_${{ github.run_id }} v
+          git push --set-upstream origin github_action_runID_${{ github.run_id }} --force
 
 
 
