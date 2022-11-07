@@ -1,12 +1,11 @@
 from pathlib import Path
 import json
 import os
-import tempfile
 import zipfile
-
 import feedparser
 import tldextract
 from newspaper import Article
+# import tempfile
 
 from .paths import *
 from .pull_internet_data.FeatureExtractor import SimpleExtractor
@@ -21,30 +20,31 @@ NOPELIST = load_nopelist()
 def extract_article_id(hint):
     return hint.replace("tag:google.com,2013:googlealerts/feed:", "")
 
-
 def get_posts_details(posts=None, topic=None, working_directory=None):
     if not posts:
         return  # returns None when nothing is given
 
     for post in posts:
         article_id = extract_article_id(post.id)
-        td = tempfile.TemporaryDirectory()
-        article_dir = Path(td.name) / f"incoming_web_data/{topic}/{article_id}"
-        if article_dir.exists():
-            print("Skipping", article_id)
-            continue
-        article_dir.mkdir(parents=True)
+        td = CACHE_DIR
         clean_url_link = scrape.clean_url(post.link)
         ext = tldextract.extract(clean_url_link)
         domain = "{}.{}".format(ext.domain, ext.suffix)  # example wmar2news.com
         if domain in WHITELIST:
             try:
+                article_dir = Path(td) / f"incoming_web_data/{topic}/{article_id}"
+                if article_dir.exists():
+                    print("Skipping", article_id)
+                    continue
+                article_dir.mkdir(parents=True)
                 article = Article(clean_url_link, language="en")
                 article.download()
                 article.parse()
                 article.nlp()
-                kwic.transform_html_to_kwic(article.html, article_id, clean_url_link, topic, td.name + "/incoming_web_data/")
-                freq.frequency_html(article.text, article_id, clean_url_link, topic, td.name + "/incoming_web_data/")
+                if not article.html:
+                    print(article_dir + " is empty")
+                kwic.transform_html_to_kwic(article.html, article_id, clean_url_link, topic, td / "incoming_web_data/")
+                freq.frequency_html(article.text, article_id, clean_url_link, topic, td / "incoming_web_data/")
                 (article_dir / f"content-{article_id}.txt").write_text(
                     article.text
                 )
@@ -60,8 +60,9 @@ def get_posts_details(posts=None, topic=None, working_directory=None):
                     },
                     (article_dir / f"metadata-{article_id}.json").open("w")
                 )
-            except:
-                print("error with download (make this more robust, get the message variable)")
+                # print(td / "incoming_web_data/")
+            except Exception as e:
+                print(e) # need to log this instead
                 
             
         else:
@@ -71,7 +72,7 @@ def get_posts_details(posts=None, topic=None, working_directory=None):
                     f.write("\n")
                     f.write(clean_url_link)
                     f.write("\n")
-        td.cleanup()
+        # td.cleanup()
         with zipfile.ZipFile(get_cache_path(topic), "w", zipfile.ZIP_DEFLATED) as zf:
             for root, dirs, files in os.walk(CACHE_DIR / "incoming_web_data"):
                 for file in files:

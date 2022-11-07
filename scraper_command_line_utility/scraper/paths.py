@@ -25,8 +25,3 @@ def load_whitelist():
 
 def load_nopelist():
     return (CONFIG_DIR / "nopelist.txt").read_text().splitlines()
-
-
-# old paths, might reimplement
-# CACHE_DIR = Path.home() / ".cache" / "story"
-# CONFIG_DIR = Path.home() / ".config" / "story"
