@@ -949,3 +949,10 @@ ctpost.com
 nbc-2.com
 timeslive.co.za
 sundayworld.com
+theage.com.au
+brisbanetimes.com.au
+newcastleherald.com.au
+mandurahmail.com.au
+murrayvalleystandard.com.au
+bluemountainsgazette.com.au
+cessnockadvertiser.com.au
