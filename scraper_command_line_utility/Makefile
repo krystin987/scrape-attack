@@ -1,4 +1,5 @@
-.PHONY: coverage lint publish push test
+.PHONY: coverage deploy lint publish push test
+TMPDIR ?= $(shell mktemp -d)
 
 package_name = scraper
 source_dir = ${package_name}
@@ -21,5 +22,13 @@ test :
 	mkdir -p results/
 	python -m pytest -ra
 
-../%.shiv :
+%.pyz :
+	# Using the command-line entrypoint scrape-and-collect, defined in pyproject.toml
 	shiv -o "$@" -c scrape-and-collect .
+
+deploy : ${TMPDIR}/scrape-attack.pyz
+	echo "Sending $< to ${DEPLOY_HOST}..." >&2
+	rsync -brtu "$<" "${DEPLOY_HOST}:"
+	rsync -brtu scraper/config/story_info/ "${DEPLOY_HOST}:scraper/config/story_info"
+
+# TODO: is there maybe a 'retrieve' verb for this project?
