@@ -62,7 +62,13 @@ def get_posts_details(posts=None, topic=None, working_directory=None):
                 )
                 # print(td / "incoming_web_data/")
             except Exception as e:
-                print(e) # need to log this instead
+                if not LOG_DIR.exists():
+                    LOG_DIR.mkdir()
+                with (LOG_DIR / "error_log.txt").open("a") as f:
+                    # print(dir(e))
+                    print(e.args[0])
+                    f.write(e.args[0])
+                    f.write("\n")
                 
             
         else:
@@ -72,7 +78,7 @@ def get_posts_details(posts=None, topic=None, working_directory=None):
                     f.write("\n")
                     f.write(clean_url_link)
                     f.write("\n")
-        # td.cleanup()
+
         with zipfile.ZipFile(get_cache_path(topic), "w", zipfile.ZIP_DEFLATED) as zf:
             for root, dirs, files in os.walk(CACHE_DIR / "incoming_web_data"):
                 for file in files:

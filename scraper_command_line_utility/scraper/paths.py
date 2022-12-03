@@ -10,6 +10,7 @@ import os
 ROOT_DIR = Path.cwd()
 CACHE_DIR = ROOT_DIR / 'scraper/cache/story_info/'
 CONFIG_DIR = ROOT_DIR / 'scraper/config/story_info/'
+LOG_DIR = ROOT_DIR / 'scraper/logs/'
 # CACHED_STATIONINDEX = CACHE_DIR / "all-stations.json"
 
 def get_cache_path(name):
