@@ -20,6 +20,12 @@ scraper_command_line_utility/dog/
 scraper_command_line_utility/gun/
 scraper_command_line_utility/roe/
 scraper_command_line_utility/test/
+
+scraper_command_line_utility/scraper/logs
+
+*.db
+*.csv
+
 temp.txt
 yamlexamples.yaml
 
