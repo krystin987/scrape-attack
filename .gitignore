@@ -1,22 +1,33 @@
+# Python droppings
+.benchmarks/
+.pytest_cache/
 __pycache__/
-incoming_web_data/
+venv/
+*.shiv
+
+# OS drpppings
 .DS_STORE
-.vscode/
-/examples
-/assets/
-dogbite/
 trash/
-scraper.shiv
-scraper_command_line_utility/gun/
+
+assets/
+city_data
+*.csv
+*.db
+dogbite/
+examples
+incoming_web_data/
 scraper_command_line_utility/dog/
+scraper_command_line_utility/gun/
 scraper_command_line_utility/roe/
 scraper_command_line_utility/test/
+
 scraper_command_line_utility/scraper/logs
 
 *.db
 *.csv
-temp.txt
-city_data
 
+temp.txt
 yamlexamples.yaml
-venv
+
+# may want to eventually include certain vscode config files, though
+.vscode/
