@@ -816,7 +816,6 @@ bournemouthecho.co.uk
 localprofile.com
 tampafp.com
 kktv.com
-ntnews.com.au
 adelaidenow.com.au
 tuko.co.ke
 wreg.com
@@ -956,3 +955,11 @@ mandurahmail.com.au
 murrayvalleystandard.com.au
 bluemountainsgazette.com.au
 cessnockadvertiser.com.au
+komu.com
+caerphilly.observer
+southwalesargus.co.uk
+dundalkdemocrat.ie
+belfasttelegraph.co.uk
+donegaldaily.com
+mlive.com
+ewn.co.za

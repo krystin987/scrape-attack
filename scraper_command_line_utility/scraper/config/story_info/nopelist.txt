@@ -84,6 +84,8 @@ bordermail.com.au
 news.com.au
 enewsinsight.com
 odishatv.in
+theprint.in
+aninews.in
 sydneycriminallawyers.com.au
 youngwitness.com.au
 illawarramercury.com.au
@@ -91,3 +93,6 @@ arkansasonline.com
 breakinglatest.news
 heraldlive.co.za
 thesun.ie
+newstalk.com
+irishexaminer.com
+her.ie
